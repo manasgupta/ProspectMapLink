@@ -42,75 +42,36 @@ function initialize() {
 
 function searchFunction() {
 	var searchBox = $('#searchBox').val();
-	alert(searchBox);
 	var data;
 	var bounds = new google.maps.LatLngBounds();
 	for (var i = 0, marker; marker = markers[i]; i++) {
 		marker.setMap(null);
 	}
-//	$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="
-//			+ searchBox, function(data) {
-//		$.each(data.results, function(i, item) {
-//			var marker = new google.maps.Marker({
-//				map : map,
-//				title : data.results[i].formatted_address,
-//				position : data.results[i].geometry.location,
-//				draggable : false,
-//				animation : google.maps.Animation.DROP
-//			});
-//			google.maps.event.addListener(marker, 'click', function() {
-//				$('#myModal').modal('show');
-//			});
-//			markers.push(marker);
-//		})
-//
-//		bounds.extend(data.results[i].geometry.location);
-//		map.fitBounds(bounds);
-//
-//		google.maps.event.addListener(map, 'bounds_changed', function() {
-//			var bounds = map.getBounds();
-//			searchBox.setBounds(bounds);
-//		});
-//		
-//	});
-
-	// $.getJSON("https://issues.netboss.com/rest/api/2/search?jql=assignee="
-	// + searchBox, function(data) {
-	// $.each(data.issues, function(i, item) {
-	// var marker = new google.maps.Marker({
-	// map : map,
-	// title : data.issues[i].key,
-	// position : {
-	// "lat" : 53.5385376,
-	// "lng" : 9.831437899999999
-	// },
-	// draggable : false,
-	// animation : google.maps.Animation.DROP
-	// });
-	// google.maps.event.addListener(marker, 'click', function() {
-	// $('#myModal').modal('show');
-	// });
-	// markers.push(marker);
-	// })
-	// });
-
-	$.getJSON("https://issues.netboss.com/rest/api/2/search?jql=assignee="
+	$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="
 			+ searchBox, function(data) {
-				console.log("insdei the json call");
-		$.each(data.issues, function(i, item) {
-			$.each(data.issues[i].customfield_10105, function(j, item) {
-				var marker = new google.maps.Marker({
-					map : map,
-					title : data.issues[i].key,
-					position : data.issues[i].customfield_10105[j].value,
-					draggable : false,
-					animation : google.maps.Animation.DROP
-				});
-				markers.push(marker);
-			})
+		$.each(data.results, function(i, item) {
+			var marker = new google.maps.Marker({
+				map : map,
+				title : data.results[i].formatted_address,
+				position : data.results[i].geometry.location,
+				draggable : false,
+				animation : google.maps.Animation.DROP
+			});
+			google.maps.event.addListener(marker, 'click', function() {
+				$('#myModal').modal('show');
+			});
+			markers.push(marker);
 		})
-	});
 
+		bounds.extend(data.results[i].geometry.location);
+		map.fitBounds(bounds);
+
+		google.maps.event.addListener(map, 'bounds_changed', function() {
+			var bounds = map.getBounds();
+			searchBox.setBounds(bounds);
+		});
+
+	});
 	
 }
 
